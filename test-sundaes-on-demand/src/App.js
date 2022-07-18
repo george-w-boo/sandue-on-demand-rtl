@@ -1,10 +1,9 @@
-import { Button } from "react-bootstrap";
-import "./App.css";
+import SummaryForm from "./pages/Summary/SummaryForm";
 
 function App() {
   return (
-    <div className="App">
-      <Button variant="primary">Primary</Button>{" "}
+    <div>
+      <SummaryForm />
     </div>
   );
 }
