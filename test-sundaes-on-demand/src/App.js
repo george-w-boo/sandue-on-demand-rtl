@@ -1,11 +1,10 @@
-import Options from "./pages/Entry/Options";
+import OrderEntry from "./pages/Entry/OrderEntry";
 import SummaryForm from "./pages/Summary/SummaryForm";
 
 function App() {
   return (
     <div>
-      <Options optionType="scoops" />
-      <Options optionType="toppings" />
+      <OrderEntry />
       <SummaryForm />
     </div>
   );
