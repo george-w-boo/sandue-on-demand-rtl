@@ -1,23 +1,40 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../../test-utils/testing-library-utils';
 import userEvent from '@testing-library/user-event';
-import { OrderDetailsProvider } from '../../../contexts/OrderDetails';
 import Options from '../Options';
 
 describe('totalUpdates', () => {
-  test('initial scoops subtotal, +1 scoop, +another scoop', async () => {
-    render(<Options optionType="scoops" />, { wrapper: OrderDetailsProvider});
+  test('initial scoops total, +1 scoop, +another scoop', async () => {
+    render(<Options optionType="scoops" />);
 
-    const subTotal = screen.getByText('Scoops total: $', { exact: false});
-    expect(subTotal).toHaveTextContent('0.00');
+    const scoopsTotal = screen.getByText('Scoops total: $', { exact: false});
+    expect(scoopsTotal).toHaveTextContent('0.00');
 
     const vanillaInput = await screen.findByRole('spinbutton', { name: 'Vanilla'});
     userEvent.clear(vanillaInput);
     userEvent.type(vanillaInput, '1');
-    expect(subTotal).toHaveTextContent('2.00');
+    expect(scoopsTotal).toHaveTextContent('2.00');
 
     const chocolateInput = await screen.findByRole('spinbutton', { name: 'Chocolate'});
     userEvent.clear(chocolateInput);
     userEvent.type(chocolateInput, '2');
-    expect(subTotal).toHaveTextContent('6.00');
+    expect(scoopsTotal).toHaveTextContent('6.00');
+  });
+
+  test('initial toppings total, add topping, remove topping', async () => {
+    render(<Options optionType="toppings" />);
+
+    const toppingsTotal = screen.getByText('Toppings total: $', { exact: false});
+    expect(toppingsTotal).toHaveTextContent('0.00');
+
+    const mnmCheckbox = await screen.findByRole('checkbox', { name: /M&Ms/i});
+    userEvent.click(mnmCheckbox);
+    expect(toppingsTotal).toHaveTextContent('1.50');
+
+    const hotfudgeCheckbox = await screen.findByRole('checkbox', { name: /Hot fudge/i});
+    userEvent.click(hotfudgeCheckbox);
+    expect(toppingsTotal).toHaveTextContent('3.00');
+
+    userEvent.click(hotfudgeCheckbox);
+    expect(toppingsTotal).toHaveTextContent('1.50');
   })
 })
