@@ -1,8 +1,7 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, render } from '../../../test-utils/testing-library-utils';
 import OrderEntry from '../OrderEntry';
 import { rest } from 'msw';
 import { server } from '../../../mocks/server';
-import { OrderDetailsProvider } from '../../../contexts/OrderDetails';
 
 describe('OrderEntry', () => {
   test('handles error for scoops and toppings routes', async () => {
@@ -15,7 +14,7 @@ describe('OrderEntry', () => {
       }),
     );
 
-    render(<OrderEntry />, { wrapper: OrderDetailsProvider });
+    render(<OrderEntry />);
 
     await waitFor(async () => {
       const alerts = await screen.findAllByRole('alert');
