@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { OrderDetailsProvider } from '../../../contexts/OrderDetails';
 import Options from '../Options';
 
 describe('totalUpdates', () => {
   test('initial scoops subtotal, +1 scoop, +another scoop', async () => {
-    render(<Options optionType="scoops" />);
+    render(<Options optionType="scoops" />, { wrapper: OrderDetailsProvider});
 
-    const subTotal = screen.getByText('Scoops subtotal:', { exact: false});
+    const subTotal = screen.getByText('Scoops total: $', { exact: false});
     expect(subTotal).toHaveTextContent('0.00');
 
     const vanillaInput = await screen.findByRole('spinbutton', { name: 'Vanilla'});
