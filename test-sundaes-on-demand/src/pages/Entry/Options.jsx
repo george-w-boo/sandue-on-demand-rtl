@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import ScoopOption from './ScoopOption';
 import { Row } from 'react-bootstrap';
@@ -6,6 +6,7 @@ import ToppingOption from './ToppingOption';
 import AlertBanner from '../common/AlertBanner';
 import { pricePerItem } from '../../consts'
 import { useOrderDetails } from '../../contexts/OrderDetails';
+import { formatCurrency } from '../../utils/index';
 
 const Options = ({ optionType }) => {
   const [items, setItems] = useState([]);
@@ -19,6 +20,8 @@ const Options = ({ optionType }) => {
       .catch(error => setError(true))
   }, [optionType]);
 
+  const itemPrice = useMemo(() => formatCurrency(pricePerItem[optionType]), [optionType]);
+
   if (error) {
     return <AlertBanner />
   }
@@ -31,7 +34,7 @@ const Options = ({ optionType }) => {
   return (
     <>
       <h2>{title}</h2>
-      <p>{pricePerItem[optionType]} each</p>
+      <p>{itemPrice} each</p>
       <p>{title} total: {orderDetails.totals[optionType]}</p>
       <Row>
         {items.map(({ name, imagePath }) => (
