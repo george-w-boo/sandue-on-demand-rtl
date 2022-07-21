@@ -1,6 +1,7 @@
 import { render, screen } from '../../../test-utils/testing-library-utils';
 import userEvent from '@testing-library/user-event';
 import Options from '../Options';
+import OrderEntry from '../OrderEntry';
 
 describe('totalUpdates', () => {
   test('initial scoops total, +1 scoop, +another scoop', async () => {
@@ -36,5 +37,36 @@ describe('totalUpdates', () => {
 
     userEvent.click(hotfudgeCheckbox);
     expect(toppingsTotal).toHaveTextContent('1.50');
+  })
+})
+
+describe('grand total', () => {
+  test('grand total updates properly if scoop is added first', async () => {
+    render(<OrderEntry />);
+
+    const grandTotalH2 = screen.getByRole('heading', { name: /grand total: \$/i});
+
+    // checks initial state of grand total h2
+    expect(grandTotalH2).toHaveTextContent('0.00');
+
+    const vanillaInput = await screen.findByRole('spinbutton', { name: 'Vanilla'});
+
+    userEvent.clear(vanillaInput);
+    userEvent.type(vanillaInput, '1');
+
+    expect(grandTotalH2).toHaveTextContent('2.00');
+  })
+  test('grand total updates properly if topping is added first', async () => {
+    render(<OrderEntry />);
+
+    const grandTotalH2 = screen.getByRole('heading', { name: /grand total: \$/i});
+
+    const mnmCheckbox = await screen.findByRole('checkbox', { name: /M&Ms/i});
+    
+    userEvent.click(mnmCheckbox);
+    expect(grandTotalH2).toHaveTextContent('1.50');
+
+    userEvent.click(mnmCheckbox);
+    expect(grandTotalH2).toHaveTextContent('0.00');
   })
 })
