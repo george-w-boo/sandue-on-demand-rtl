@@ -1,14 +1,17 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useOrderDetails } from '../../contexts/OrderDetails';
+import { Button } from 'react-bootstrap';
 
 export const Confirmation = () => {
   const [orderNumber, setOrderNumber] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [value] = useOrderDetails();
+  // eslint-disable-next-line no-unused-vars
+  const [value, _, resetOrder] = useOrderDetails();
+  let navigate = useNavigate();
 
-  console.log('orderNumber', orderNumber);
   useEffect(() => {
     const controller = new AbortController();
 
@@ -39,6 +42,16 @@ export const Confirmation = () => {
           <p>as per our terms and conditions, nothing will happen now</p>
         </>
       )}
+      <Button
+        variant='primary'
+        type='button'
+        onClick={() => {
+          navigate('/');
+          resetOrder();
+        }}
+      >
+        New order
+      </Button>
     </>
   )
 }

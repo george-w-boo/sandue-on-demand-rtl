@@ -2,6 +2,14 @@ import SummaryForm from "../SummaryForm";
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+// pay attention to write it at the top level of your file
+const mockedUsedNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+   ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedUsedNavigate,
+}));
+
 describe('SummaryForm', () => {
   test('checkbox functionality', () => {
     render(<SummaryForm />);

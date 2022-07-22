@@ -3,6 +3,14 @@ import userEvent from '@testing-library/user-event';
 import Options from '../Options';
 import OrderEntry from '../OrderEntry';
 
+  // pay attention to write it at the top level of your file
+  const mockedUsedNavigate = jest.fn();
+
+  jest.mock('react-router-dom', () => ({
+      ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockedUsedNavigate,
+  }));
+
 describe('totalUpdates', () => {
   test('initial scoops total, +1 scoop, +another scoop', async () => {
     render(<Options optionType="scoops" />);

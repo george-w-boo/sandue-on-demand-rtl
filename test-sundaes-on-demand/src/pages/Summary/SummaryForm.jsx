@@ -1,24 +1,10 @@
 import { useState } from 'react';
 import { Form, Button, Popover, OverlayTrigger } from 'react-bootstrap';
-
-// const popover = (
-//   <Popover id="popover-basic">
-//     <Popover.Header as="h3">Popover right</Popover.Header>
-//     <Popover.Body>
-//       And here's some <strong>amazing</strong> content. It's very engaging.
-//       right?
-//     </Popover.Body>
-//   </Popover>
-// );
-
-// const Example = () => (
-//   <OverlayTrigger trigger="click" placement="right" overlay={popover}>
-//     <Button variant="success">Click me to see</Button>
-//   </OverlayTrigger>
-// );
+import { useNavigate } from "react-router-dom";
 
 const SummaryForm = () => {
   const [tcChecked, setTcChecked] = useState(false);
+  let navigate = useNavigate();
 
   const popover = (
   <Popover id="popover-basic">
@@ -52,6 +38,7 @@ const SummaryForm = () => {
         variant='primary'
         type='submit'
         disabled={!tcChecked}
+        onClick={() => navigate('/confirmation')}
       >
         Confirm order
       </Button>

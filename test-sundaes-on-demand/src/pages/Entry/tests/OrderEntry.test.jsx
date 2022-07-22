@@ -3,6 +3,14 @@ import OrderEntry from '../OrderEntry';
 import { rest } from 'msw';
 import { server } from '../../../mocks/server';
 
+  // pay attention to write it at the top level of your file
+  const mockedUsedNavigate = jest.fn();
+
+  jest.mock('react-router-dom', () => ({
+      ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockedUsedNavigate,
+  }));
+
 describe('OrderEntry', () => {
   test('handles error for scoops and toppings routes', async () => {
     server.resetHandlers(

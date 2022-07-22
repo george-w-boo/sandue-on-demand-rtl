@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { OrderDetailsProvider } from "./contexts/OrderDetails";
 import { Confirmation } from "./pages/Confirmation/Confirmation";
 import OrderEntry from "./pages/Entry/OrderEntry";
+import OrderSummary from "./pages/Summary/OrderSummary";
 
 function App() {
   return (
@@ -21,6 +22,14 @@ function App() {
           element={
             <OrderDetailsProvider>
               <Confirmation />
+            </OrderDetailsProvider>
+          }
+        />
+        <Route
+          path="summary"
+          element={
+            <OrderDetailsProvider>
+              <OrderSummary />
             </OrderDetailsProvider>
           }
         />
