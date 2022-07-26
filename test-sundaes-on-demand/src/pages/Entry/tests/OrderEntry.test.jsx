@@ -1,5 +1,6 @@
-import { screen, waitFor, render } from '../../../test-utils/testing-library-utils';
 import OrderEntry from '../OrderEntry';
+import { screen, waitFor, render } from '../../../test-utils/testing-library-utils';
+import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import { server } from '../../../mocks/server';
 
@@ -29,5 +30,23 @@ describe('OrderEntry', () => {
 
       expect(alerts).toHaveLength(2);
     })
+  });
+
+  test('checks if go to summary btn disabled when no scoops selected', async () => {
+    render(<OrderEntry />);
+
+    const goToSummaryBtn = screen.getByRole('button', { name: /go to summary/i });
+    expect(goToSummaryBtn).toBeDisabled();
+
+    const vanillaInput = await screen.findByRole('spinbutton', { name: 'Vanilla'});
+    userEvent.clear(vanillaInput);
+    userEvent.type(vanillaInput, '1');
+
+    expect(goToSummaryBtn).toBeEnabled();
+
+    userEvent.clear(vanillaInput);
+    userEvent.type(vanillaInput, '0');
+
+    expect(goToSummaryBtn).toBeDisabled();
   })
 });
