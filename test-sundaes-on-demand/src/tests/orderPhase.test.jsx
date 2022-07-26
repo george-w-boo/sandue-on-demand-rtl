@@ -57,4 +57,21 @@ describe('App', () => {
     const toppingsTotal = screen.getByText('Toppings total: $', { exact: false});
     expect(toppingsTotal).toHaveTextContent('0.00');
   })
+
+  test('conditional topping secion on summary page', async () => {
+    render(<Router><App /></Router>)
+
+    // add ice cream scoops and toppings
+    const vanillaSelect = await screen.findByRole('spinbutton', { name: /Vanilla/i});
+
+    userEvent.clear(vanillaSelect);
+    userEvent.type(vanillaSelect, '1');
+
+    // check summary info based on order
+    const goToSummary = screen.getByRole('button', { name: /Go to summary/i})
+    userEvent.click(goToSummary);
+
+    const toppingH2 = screen.queryByRole('heading', { name: /toppings/i });
+    expect(toppingH2).not.toBeInTheDocument();
+  })
 })
