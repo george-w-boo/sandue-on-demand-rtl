@@ -35,9 +35,16 @@ describe('App', () => {
 
     userEvent.click(confirmOrderBtn);
 
+    // check if loading is present
+    const loading = screen.getByText('Loading', { exact: false });
+    expect(loading).toBeInTheDocument();
+
     // confirm order number on confirmation page
     const orderNumber = await screen.findByText('Your order number is', { exact: false });
+    const notLoading = screen.queryByText(/loading/i);
+  
     expect(orderNumber).toHaveTextContent('7672789825');
+    expect(notLoading).not.toBeInTheDocument();
 
     // click 'new order' button on confirmation page
     const newOrderBtn = screen.getByRole('button', { name: /new order/i })
@@ -49,7 +56,5 @@ describe('App', () => {
 
     const toppingsTotal = screen.getByText('Toppings total: $', { exact: false});
     expect(toppingsTotal).toHaveTextContent('0.00');
-
-    // do we need await anything to avoid test errors?
   })
 })

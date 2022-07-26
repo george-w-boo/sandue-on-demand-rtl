@@ -8,8 +8,7 @@ export const Confirmation = () => {
   const [orderNumber, setOrderNumber] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [value, _, resetOrder] = useOrderDetails();
+  const [value, , resetOrder] = useOrderDetails();
   let navigate = useNavigate();
 
   useEffect(() => {
