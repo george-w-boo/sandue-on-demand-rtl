@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useOrderDetails } from '../../contexts/OrderDetails';
 import { Button } from 'react-bootstrap';
+import AlertBanner from '../common/AlertBanner';
 
 export const Confirmation = () => {
   const [orderNumber, setOrderNumber] = useState('');
@@ -29,6 +30,8 @@ export const Confirmation = () => {
     })
     return () => controller.abort()
   }, [])
+
+  if (error) return <AlertBanner />
 
   return (
     <>

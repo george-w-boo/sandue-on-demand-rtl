@@ -7,8 +7,6 @@ const OrderEntry = () => {
   const [{ totals: { grandTotal }}] = useOrderDetails();
   let navigate = useNavigate();
 
-  console.log('grandTotal', grandTotal);
-
   return (
     <>
       <Options optionType="scoops" />
